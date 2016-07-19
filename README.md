@@ -36,4 +36,6 @@ _We need to carefully evaluate the privacy and security implications of exposing
 
 ---
 
-Discuss: https://github.com/WICG/content-size/issues
+- Discuss: https://github.com/WICG/content-size/issues
+- [blink-dev] [Intent to implement: content size policy](https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/N0HybdIpKBs)
+ - [Technical design doc (blink)](https://docs.google.com/document/d/1dg3zblqRjNMcM-xUno-q1dLZz9vGP7qukzD9EEuFAC4/edit#heading=h.2uabi8vktqox)
