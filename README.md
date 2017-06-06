@@ -8,29 +8,32 @@ In practice, this can result in mis{behaving, configured} parties fetching large
 
 ```html
   <!-- insert vigorous handwaving here -->
-  <iframe max-content-size="300kb" src="..."> 
-  <iframe max-javascript-size="150kb" src="..."> 
-  
+  <iframe max-content-size="300kb" src="...">
   <!-- alternatively, header mechanism to set similar limits -->
 ```
 
-The above limits intend to enforce the total amount of resources used by the page, regardless whether the resources comes from cache or not. This is to allow site authors to enforce some reasonable limits on amounts of script/other resources that are executed by the nested context. 
+The above limits intend to enforce the total amount of resources used by the frame, regardless whether the resources comes from cache or not. This is to allow site authors to enforce some reasonable limits on amounts of resources that are executed by the nested context.
 
 ## Enforcement
+Once a frame's threshold has been reached, the frame is marked as a violating frame and all of its (and its children's) in-flight resource requests are cancelled and future requests are aborted.
 
-TBD and subject to privacy/security considerations. Some plausible strategies:
+For privacy purposes (as described below) there is a limit to the number of violations that can occur per top-level page navigation. After the limit has been reached, all frames with a max-content-size (and their children) will abort requests.
 
-- Once threshold is reached, cancel in-flight requests and abort future requests
-- Allow in-flight requests to finish, abort new requests
+As an example, suppose the violation limit is 10 per navigation. This means that if you have 11 iframes with size policy and 10 of them exceed their max size, then the 11th will also stop loading.
 
+*Be very careful when using size policy to constrain critical components of your page.*
+
+
+## Notification
+TBD - Should the frame be informed that it has a size constraint? Should it be informed (à la Reporting API, or JavaScript) if it violates the size constraint?
 
 ## Privacy & Security
 
-Resource Timing API exposes [encodedBodySize attribute](http://w3c.github.io/resource-timing/#dom-performanceresourcetiming-encodedbodysize) which provides the size of a particular resource prior to removing any content encodings. This attribute is exposed by default for same-origin resources, and for third-party resources that provide the TAO opt-in header. However, RT API does not allow the top-level context to introspect inside of a nested context and see which resources it's fetching, or their size. As a result, RT is not sufficient to address this problem. Further...
+The browser can't enforce the exact max-content-size as provided to it, as that could be used to expose the precise size of cross-origin resources. Knowing response size of a cross-origin resource can reveal information about its contents and/or user state (e.g., authenticated vs log-in page response).
 
-We can't simply expose the exact number of bytes consumed by the nested context:
-- Knowing response size of a resource can reveal information about its contents and/or users state - e.g. authenticated vs log-in page response.
-- Forcing coarse thresholds doesn't solve the problem either because it is possible to embed any resource inside an iframe with known “padding” (e.g. another resource whose size you know or control) and then figure out the size of the resource you’re interested in.
+In order to prevent size policy from leaking the precise size of cross-origin resources, the enforcement is fuzzy and the number of violations is limited. The actual enforced max size for a frame is hidden from the page, but it's a function of the max size that includes a random number of bytes (the random pad). The random distribution is chosen to statistically reveal no more information than simple [network timing](https://www.igvita.com/2016/08/26/stop-cross-site-timing-attacks-with-samesite-cookies/) given a limited number of samples.
+
+To prevent statistical defeat of the random pad, the number of size policy violations that may occur per top-level navigation will be fixed to a small number, such as 10. After the maximum number of size policy violations have occurred, all frames with size policies will be considered in violation and won't be able to load resources.
 
 _We need to carefully evaluate the privacy and security implications of exposing this mechanism._
 
