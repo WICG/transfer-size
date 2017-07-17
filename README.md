@@ -37,11 +37,9 @@ TSP (Transfer Size Policy) will leverage the [Reporting API](http://wicg.github.
 
 The browser can't enforce the exact max-transfer-size as provided to it, as that could be used to expose the precise size of cross-origin resources. Knowing response size of a cross-origin resource can reveal information about its contents and/or user state (e.g., authenticated vs log-in page response).
 
-In order to prevent the policy from leaking the precise size of cross-origin resources, the enforcement is fuzzy and the number of violations is limited. The actual enforced max size for a frame is hidden from the page, but it's a function of the max size that includes a random number of bytes (the random pad). The random distribution is chosen to statistically reveal no more information than simple [network timing](https://www.igvita.com/2016/08/26/stop-cross-site-timing-attacks-with-samesite-cookies/) given a limited number of samples.
+In order to prevent the policy from leaking the precise size of cross-origin resources, the size of cross-origin (with respect to the embedding frame) resources is made fuzzy (e.g., a random number of bytes is added to them). This makes it harder to determine the exact size of cross-origin resources. The random distribution is chosen to statistically reveal no more information than simple [network timing](https://www.igvita.com/2016/08/26/stop-cross-site-timing-attacks-with-samesite-cookies/) given a limited number of samples.
 
-To prevent statistical defeat of the random pad, the number of size policy violations that may occur per top-level navigation will be fixed to a small number, such as 10. After the maximum number of size policy violations have occurred, all frames with size policies will be considered in violation and won't be able to load resources.
-
-_We need to carefully evaluate the privacy and security implications of exposing this mechanism._
+To prevent statistical defeat of the random padding bytes, the number of size policy violations that may occur per top-level navigation will be fixed to a small number, such as 10. After the maximum number of size policy violations have occurred, all frames with transfer size policies will be considered in violation and won't be able to load resources.
 
 ---
 
