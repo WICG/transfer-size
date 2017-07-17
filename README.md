@@ -31,7 +31,7 @@ As an example, suppose the violation limit is 10 per navigation. This means that
 
 
 ## Reporting
-TSP (Transfer Size Policy) will leverage the [Reporting API](http://wicg.github.io/reporting/) to send reports of violations. The response header will be used to configure network-based reports. To observe reports of TSP violations in JavaScript, the intent is to use the proposed [ReportingObserver](https://github.com/WICG/reporting/blob/master/EXPLAINER.md). 
+TSP (Transfer Size Policy) will leverage the [Reporting API](http://wicg.github.io/reporting/) to send reports of violations to the default reporting group. To change the reporting group, use the report-to field in the Transfer-Size-Policy response header. To observe reports of TSP violations in JavaScript, the intent is to use the proposed [ReportingObserver](https://github.com/WICG/reporting/blob/master/EXPLAINER.md). 
 
 ## Privacy & Security
 
