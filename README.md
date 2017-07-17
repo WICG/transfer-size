@@ -12,6 +12,12 @@ In practice, this can result in mis{behaving, configured} parties fetching large
   <!-- alternatively, header mechanism to set similar limits -->
 ```
 
+or with response headers:
+
+```http
+  Transfer-Size-Policy: {"default":"100KB", "self":"*", "*.example.com":"200KB", "report-to":"endpoint"}
+```
+
 The above limits intend to enforce the total amount of resources used by the frame, regardless whether the resources comes from cache or not. This is to allow site authors to enforce some reasonable limits on amounts of resources that are executed by the nested context.
 
 ## Enforcement
