@@ -30,8 +30,8 @@ As an example, suppose the violation limit is 10 per navigation. This means that
 *Be very careful when using size policy to constrain critical components of your page.*
 
 
-## Notification
-TBD - Should the frame be informed that it has a size constraint? Should it be informed (à la Reporting API, or JavaScript) if it violates the size constraint?
+## Reporting
+TSP (Transfer Size Policy) will leverage the [Reporting API](http://wicg.github.io/reporting/) to send reports of violations. The response header will be used to configure network-based reports. To observe reports of TSP violations in JavaScript, the intent is to use the proposed [ReportingObserver](https://github.com/WICG/reporting/blob/master/EXPLAINER.md). 
 
 ## Privacy & Security
 
