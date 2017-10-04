@@ -24,6 +24,11 @@ Transfer Size Policy can also be configured via response headers. This is especi
   Transfer-Thresholds: {"default":"100KB", "self":"Infinite", "*.example.com":"200KB"}
 ```
 
+and in your script:
+```javascript
+document.ontransferexceeded=onBigFrame;
+```
+
 ## Details
 Each frame with a `transfer-threshold` will count the number of bytes that it and its child frames (transitively) receive from requests that utilize the network (cached responses are not counted). Each response from an origin that differs from the embedding frame's origin will have a random number of bytes added to its size. Once the threshold is crossed, the `transferexceeded` event is fired. The event bubbles and has a target of the frame element in the embedding page.
 
