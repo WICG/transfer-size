@@ -45,10 +45,9 @@ It is up to the event handler to determine what to do about the frame exceeding 
 ## Privacy & Security
 According to the [same origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy), it should not be possible to determine the response size of a cross-origin resource. It's impossible for this API to exist and not leak some amount of size information. The best we can do is to limit it to as small amount as is practically possible. That is what is done for other APIs that leak size information. 
 
-There are three mitigations to help minimize size leakage:
+There are two mitigations to help minimize size leakage:
  1. Each cross-origin resource's size is padded with a random value (e.g., -1 * rand(0KB, 20KB)). Because the pad is negative, the event will only fire if the frame is at least threshold size, though it may be larger at the time of firing.
  1. The is a cap on the number of `transferexceeded` events that can be fired per top-level page load to stop adversaries from taking lots of samples in order to statistically defeat the random padding. (e.g., 100)
- 1. There is a minimum `transfer-threshold` (e.g., 50KB)
  
 Specifics about the random pad distribution and the size of the event cap will be provided in the specification.
 
