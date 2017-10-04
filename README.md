@@ -46,6 +46,7 @@ There are three mitigations to help minimize size leakage:
  1. There is a minimum `transfer-threshold` (e.g., 50KB)
  
 Specifics about the random pad distribution and the size of the event cap will be provided in the specification.
+
 ---
 
 - Discuss: https://github.com/WICG/content-size/issues
