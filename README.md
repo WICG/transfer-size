@@ -4,7 +4,7 @@
 
 Today the top-level frame is unable to audit or enforce size limits on resources used by a nested context. For example, the developer may take great care to optimize their assets to fit within a specific quota, but the moment they add a third party resource that uses (or injects) a nested context, they have no way to track or enforce limits on the resulting size.
 
-In practice, this can result in mis{behaving, configured} parties fetching large amounts of data, which violate site owners expectations and harm the user experience. To address this, frames could trigger an event once they've consumed more than a specified number of bytes over the network. The page could then handle the event in any way it chooses, such as logging it, displaying a notice to the user, [pausing](https://github.com/jkarlin/pause-frame) it, unloading it, etc. There might even be a future API to cancel all current and future network requests for a frame as a response.
+In practice, this can result in mis{behaving, configured} parties fetching large amounts of data, which violate site owners expectations and harm the user experience. To address this, frames could trigger an event once they've consumed at least a specified number of bytes over the network. The page could then handle the event in any way it chooses, such as logging it, displaying a notice to the user, [pausing](https://github.com/jkarlin/pause-frame) it, unloading it, etc. There might even be a future API to cancel all current and future network requests for a frame as a response.
 
 Here is an example:
 
