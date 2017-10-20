@@ -11,7 +11,7 @@ Here is an example which limits an iframe to 300KB total:
 ```html
   <script>
     function onBigFrame(event) {
-      console.log("Frame with id: " + event.target.id + " exceeded its threshold bytes");
+      console.log("Frame id: " + event.target.id + " exceeded its threshold bytes in category: " + event.category);
     }
   </script>
 
@@ -20,19 +20,18 @@ Here is an example which limits an iframe to 300KB total:
 
 Here is an example that limits the total size of the page to 500KB, of which CSS can use 50KB max:
 ```
-  <iframe id="foo" ontransferexceeded="onBigFrame(event)" transfer-threshold="style: 50, total:500" src="...">
+  <iframe id="foo" ontransferexceeded="onBigFrame(event)" transfer-threshold="style:50, total:500" src="...">
 ```
 
 And here is an example that only limits the size of videos on the frame to 10MB:
 ```
-  <iframe id="foo" ontransferexceeded="onBigFrame(event)" transfer-threshold="video: 10240" src="...">
+  <iframe id="foo" ontransferexceeded="onBigFrame(event)" transfer-threshold="video:10240" src="...">
 ```
-
 
 Transfer Size Policy can also be configured via response headers. This is especially useful if third-party script creates the frame such that you can't add the attribute to the frame yourself. In this example, the default threshold for a frame is 100KB, the site's origin is unrestricted, and \*.example.com is limited to 500KB and 50KB of style:
 
 ```http
-  Transfer-Thresholds: {"default":"100", "self":"Infinite", "*.example.com":"style: 50, total:500"}
+  Transfer-Thresholds: {"default":"100", "self":"*", "*.example.com":"style:50, total:500"}
 ```
 
 and in your script:
@@ -46,7 +45,7 @@ document.ontransferexceeded=onBigFrame;
 * Monitoring (or even enforcing policy upon) how often ads get too large
 
 ## Details
-Each frame with a `transfer-threshold` will count the number of over-the-wire bytes that it and its child frames (transitively) receive from requests that utilize the network (cached responses are not counted). Once the threshold is crossed, the `transferexceeded` event is fired. The event bubbles and has a target of the frame element in the embedding page.
+Each frame with a `transfer-threshold` will count the number of over-the-wire bytes that it and its child frames (transitively) receive from requests that utilize the network (cached responses are not counted). Once a threshold is crossed, the bubbling `transferexceeded` event (a new event type which includes the resource category that was exceeded) is fired on the frame element in the parent frame.
 
 If any of the network bytes are from origins other than the embedding frame's origin, a random pad is added to `transfer-threshold` so as not to reveal the exact size of the resources in the frame.
 
