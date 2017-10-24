@@ -45,7 +45,7 @@ document.ontransferexceeded=onBigFrame;
 * Monitoring (or even enforcing policy upon) how often ads get too large
 
 ## Details
-Each frame with a `transfer-threshold` will count the number of over-the-wire bytes that it and its child frames (transitively) receive from requests that utilize the network (cached responses are not counted). Once a threshold is crossed, the bubbling `transferexceeded` event (a new event type which includes the resource category that was exceeded) is fired on the frame element in the parent frame.
+Each frame with a `transfer-threshold` will count the number of over-the-wire bytes that it and its child frames (transitively) receive from requests that utilize the network (cached responses are not counted). Once a threshold is crossed, the bubbling `transferexceeded` event (a new event type which includes the exceeded threshold and resource category ) is fired on the frame element in the parent frame.
 
 If any of the network bytes are from origins other than the embedding frame's origin, a random pad is added to `transfer-threshold` so as not to reveal the exact size of the resources in the frame.
 
