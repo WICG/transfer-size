@@ -51,6 +51,9 @@ If any of the network bytes are from origins other than the embedding frame's or
 
 There will be a cap on the number of `transferexceeded` events that will be fired per top-level pageload in order to help [preserve privacy](#Privacy-&-Security).
 
+## Headers and IFrame Attribute Conflict Resolution
+If both headers a transfersize attribute apply to a frame, the policies are merged such that the most restrictive policy wins.
+
 ## Response
 It is up to the event handler to determine what to do about the frame exceeding its set size. Examples include:
 
