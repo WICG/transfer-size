@@ -28,6 +28,8 @@ And here is an example that only limits the size of videos on the frame to 10MB:
   <iframe id="foo" ontransferexceeded="onBigFrame(event)" transfersize="video:10240" src="...">
 ```
 
+To see a list of resource types that can be limited, see the Fetch spec's [request-destination](https://fetch.spec.whatwg.org/#concept-request-destination) section.
+
 Transfer Size Policy can also be configured via response headers. This is especially useful if third-party script creates the frame such that you can't add the attribute to the frame yourself. In this example, the default threshold for a frame is 100KB, the site's origin is unrestricted, and \*.example.com is limited to 500KB and 50KB of style:
 
 ```http
@@ -38,6 +40,7 @@ and in your script:
 ```javascript
 document.ontransferexceeded=onBigFrame;
 ```
+
 
 ## Use Cases
 * Enforcing size policies on content, such as AMP's 50,000 byte limit on CSS
