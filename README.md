@@ -1,6 +1,8 @@
-# Transfer Size Policy
+# Archive of "Transfer Size Policy"
 
-**Goal: enable developers to set and enforce limits on network usage by nested contexts (i.e. iframes).**
+**This incubation has been archived and no longer being persued (see [#19](https://github.com/WICG/transfer-size/issues/19)). It may restart if there is renewed insterest.**
+
+Goal: enable developers to set and enforce limits on network usage by nested contexts (i.e. iframes).
 
 Today the top-level frame is unable to audit or enforce size limits on resources used by a nested context. For example, the developer may take great care to optimize their assets to fit within a specific quota, but the moment they add a third party resource that uses (or injects) a nested context, they have no way to track or enforce limits on the resulting size.
 
